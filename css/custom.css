@@ -1,0 +1,11 @@
+/* 仅在文章页隐藏侧边栏的个人卡片 */
+body.post .sidebar-inner .card.personal-info,
+body.post .sidebar-inner .card.friend-link,
+body.post .sidebar-inner .card.about-me {
+  display: none !important;
+}
+
+/* 可选：调整 TOC 位置，避免顶部留白 */
+body.post .sidebar-inner .card.toc {
+  margin-top: 0 !important;
+}
