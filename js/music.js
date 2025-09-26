@@ -1,1 +1,13 @@
-const ap=new APlayer({container:document.getElementById("aplayer"),fixed:!0,autoplay:!0,audio:[{name:"",artist:"",url:"",cover:""}]});
+const ap = new APlayer({
+    container: document.getElementById('aplayer'),
+    fixed: true,
+	autoplay: true, //自动播放
+    audio: [
+	{
+        name: '',
+        artist: '',
+        url: '',
+        cover: '',
+    }, 
+	]
+});
