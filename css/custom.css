@@ -85,10 +85,25 @@ body.post .sidebar-inner .card.toc {
   background: #191919ee;
 }
 
+
+
+/* 可选：hover 效果 */
+#card-info-btn :hover{
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.card-info .btn-github .icon,
+.card-info .btn-github svg {
+  fill: white !important;
+  color: white !important;
+}
+
 /* Follow me 按钮 —— 改为更协调的颜色 */
 #aside-content > .card-widget.card-info > #card-info-btn {
-  background-color: #f1ecdc; /* 使用暖橙色，呼应光点 */
-  color: #2c2c2c;
+  background: transparent !important;
+  color: white !important;
   border: none;
   padding: 10px 20px;
   font-size: 14px;
@@ -182,4 +197,241 @@ div#archive {
 [data-theme="dark"] .read-mode div#post {
   background: rgba(25, 25, 25, 0.9) !important;
   color: #ffffff;
+}
+
+/* 个人信息卡片背景图 */
+[data-theme="light"] #aside-content > .card-widget.card-info {
+  background-image: url('https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509270104154.jpg');
+  background-repeat: no-repeat;
+  background-attachment: inherit;
+  background-size: 100%;
+}
+
+[data-theme="dark"] #aside-content > .card-widget.card-info {
+  background-image: url('https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509270104151.jpg');
+  background-repeat: no-repeat;
+  background-attachment: inherit;
+  background-size: 100%;
+}
+
+
+/* 确保.card-info-avatar正确显示 */
+.card-widget .card-info-avatar {
+    display: inline-block;
+    position: relative;
+}
+
+/* 使图片透明而不隐藏容器 */
+.card-info .avatar-img img {
+    opacity: 0; /* 让图片透明 */
+}
+
+/* 应用于头像容器的呼吸灯动画 */
+[data-theme="light"] .avatar-img {
+  animation: huxi_light 4s ease-in-out infinite;
+}
+
+[data-theme="dark"] .avatar-img {
+  animation: huxi_dark 4s ease-in-out infinite;
+}
+
+/* 定义呼吸灯动画在亮色主题下的效果 */
+@keyframes huxi_light {
+  0%, 100% {
+    box-shadow: 0px 0px 1px 1px #e9f5fa;
+  }
+  50% {
+    box-shadow: 0px 0px 5px 5px #e9f5fa;
+  }
+}
+
+/* 定义呼吸灯动画在暗色主题下的效果 */
+@keyframes huxi_dark {
+  0%, 100% {
+    box-shadow: 0px 0px 1px 1px #39c5bb;
+  }
+  50% {
+    box-shadow: 0px 0px 5px 5px #39c5bb;
+  }
+}
+
+.card-info-avatar .author-status-box {
+  position: absolute;
+  bottom: 0;
+  left: calc(100% - 28px);
+  width: 28px;
+  height: 28px;
+  border: 1px solid #d0d7de;
+  border-radius: 2em;
+  background-color: #f8f8f8f8;
+  transition: 0.4s;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .card-info-avatar .author-status-box {
+  background-color: #222222f2;
+  border: 1px solid #5c6060;
+}
+
+.card-info-avatar .author-status-box .author-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 0 5px;
+}
+
+.card-info-avatar .author-status-box:hover {
+  width: 105px;
+}
+
+.card-info-avatar .author-status-box:hover .author-status span {
+  width: 105px;
+  margin-left: 4px;
+}
+
+.card-info-avatar .author-status-box .author-status span {
+  width: 0;
+  font-size: 12px;
+  height: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: 0.4s;
+}
+
+.card-widget .card-info-avatar {
+  display: inline-block;
+  position: relative;
+}
+
+/* 波浪css */
+.main-hero-waves-area {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: -11px;
+  z-index: 5;
+}
+.waves-area .waves-svg {
+  width: 100%;
+  height: 5rem;
+}
+/* Animation */
+
+.parallax > use {
+  animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+}
+.parallax > use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 7s;
+  fill: rgba(247, 249, 254, 0.3); /* 半透明浅灰白 */
+}
+
+.parallax > use:nth-child(2) {
+  animation-delay: -3s;
+  animation-duration: 10s;
+  fill: rgba(247, 249, 254, 0.25); /* 更淡 */
+}
+
+.parallax > use:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 13s;
+  fill: rgba(247, 249, 254, 0.2); /* 最淡 */
+}
+
+.parallax > use:nth-child(4) {
+  animation-delay: -5s;
+  animation-duration: 20s;
+  fill: rgba(180, 175, 170, 0.15); /* 暗灰，接近背景色调 */
+}
+/* 黑色模式背景 */
+[data-theme="dark"] .parallax > use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 7s;
+  fill: #18171dc8;
+}
+[data-theme="dark"] .parallax > use:nth-child(2) {
+  animation-delay: -3s;
+  animation-duration: 10s;
+  fill: #18171d80;
+}
+[data-theme="dark"] .parallax > use:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 13s;
+  fill: #18171d3e;
+}
+[data-theme="dark"] .parallax > use:nth-child(4) {
+  animation-delay: -5s;
+  animation-duration: 20s;
+  fill: #18171d;
+}
+
+@keyframes move-forever {
+  0% {
+    transform: translate3d(-90px, 0, 0);
+  }
+  100% {
+    transform: translate3d(85px, 0, 0);
+  }
+}
+/*Shrinking for mobile*/
+@media (max-width: 768px) {
+  .waves-area .waves-svg {
+    height: 40px;
+    min-height: 40px;
+  }
+} 
+
+/* 全局宽度 */
+.layout {
+  max-width: 1400px;
+}
+
+/* 侧边卡片栏宽度 */
+.aside-content {
+  max-width: 318px;
+  min-width: 300px;
+}
+
+/* 平板尺寸自适应(不启用侧边栏宽度限制) */
+@media screen and (max-width: 900px) {
+  .aside-content {
+    max-width: none !important;
+    padding: 0 5px 0 5px;
+  }
+}
+
+/* 除了首页以外其他页面隐藏卡片，并采用宽屏显示 */
+#archive,
+#page,
+#category,
+#tag {
+  width: 100%;
+}
+
+/* 归档页、分类页、标签页等：隐藏整个侧边栏 */
+.page:not(.home):not(.post) .aside-content {
+  display: none !important;
+}
+
+/* 文章页：先隐藏所有侧边栏组件 */
+.page.post .aside-content .card-widget {
+  display: none !important;
+}
+
+/* 再单独显示目录（TOC） */
+.page.post .aside-content #card-toc {
+  display: block !important;
+}
+
+.page.post .card-toc {
+  margin: 1rem 0 !important;
+  padding: 1rem !important;
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  font-size: 0.95em !important;
+  overflow-y: auto !important;
+  max-height: calc(100vh - 200px) !important
 }
