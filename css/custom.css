@@ -1,3 +1,15 @@
+:root {
+  --liushen-card-bg: #1a1a1a;
+  --liushen-card-secondbg: #2d2d2d;
+  --liushen-text: #fff;
+  --liushen-secondtext: #ccc;
+  --liushen-card-border: 1px solid #444;
+  --card-box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  --card-hover-box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  --liushen-nav-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  --default-bg-color: #000;
+}
+
 /* 仅在文章页隐藏侧边栏的个人卡片 */
 body.post .sidebar-inner .card.personal-info,
 body.post .sidebar-inner .card.friend-link,
