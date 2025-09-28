@@ -4,9 +4,9 @@
   --liushen-text: #fff;
   --liushen-secondtext: #ccc;
   --liushen-card-border: 1px solid #444;
-  --card-box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-  --card-hover-box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-  --liushen-nav-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  --card-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  --card-hover-box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  --liushen-nav-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   --default-bg-color: #000;
 }
 
@@ -28,6 +28,7 @@ body.post .sidebar-inner .card.toc {
   background: #1e1e1e;
   color: antiquewhite;
 }
+
 /* 鼠标悬浮状态 */
 [data-theme="dark"] .magnet_link_context:hover {
   background: #3ecdf1;
@@ -63,20 +64,20 @@ body.post .sidebar-inner .card.toc {
 
 
 /* 侧边栏个人信息卡片动态渐变色（适配你的背景图） */
-#aside-content > .card-widget.card-info {
-  background: linear-gradient(
-    -45deg,
-    #7f7f7f,
-    #d9d9d9,
-    #fbfbfb,
-    #ffccaa
-  );
+#aside-content>.card-widget.card-info {
+  background: linear-gradient(-45deg,
+      #7f7f7f,
+      #d9d9d9,
+      #fbfbfb,
+      #ffccaa);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   position: relative;
   background-size: 400% 400%;
   animation: Gradient 10s ease infinite;
-  border-radius: 12px; /* 增加圆角，更柔和 */
-  overflow: hidden;   /* 防止内容溢出 */
+  border-radius: 12px;
+  /* 增加圆角，更柔和 */
+  overflow: hidden;
+  /* 防止内容溢出 */
 }
 
 /* 动画关键帧（保持不变） */
@@ -84,23 +85,25 @@ body.post .sidebar-inner .card.toc {
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
 }
 
 /* 黑夜模式适配（保持深色） */
-[data-theme="dark"] #aside-content > .card-widget.card-info {
+[data-theme="dark"] #aside-content>.card-widget.card-info {
   background: #191919ee;
 }
 
 
 
 /* 可选：hover 效果 */
-#card-info-btn :hover{
+#card-info-btn :hover {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
   transform: translateY(-1px);
@@ -113,7 +116,7 @@ body.post .sidebar-inner .card.toc {
 }
 
 /* Follow me 按钮 —— 改为更协调的颜色 */
-#aside-content > .card-widget.card-info > #card-info-btn {
+#aside-content>.card-widget.card-info>#card-info-btn {
   background: transparent !important;
   color: white !important;
   border: none;
@@ -124,7 +127,7 @@ body.post .sidebar-inner .card.toc {
   transition: all 0.3s ease;
 }
 
-#aside-content > .card-widget.card-info > #card-info-btn:hover {
+#aside-content>.card-widget.card-info>#card-info-btn:hover {
   background-color: #ff9966;
   transform: scale(1.05);
 }
@@ -138,7 +141,7 @@ body.post .sidebar-inner .card.toc {
 }
 
 /* 首页文章卡片 */
-#recent-posts > .recent-post-item {
+#recent-posts>.recent-post-item {
   background: var(--trans-light);
   backdrop-filter: var(--backdrop-filter);
   border-radius: 25px;
@@ -174,7 +177,7 @@ div#archive {
 }
 
 /* 夜间模式遮罩 */
-[data-theme="dark"] #recent-posts > .recent-post-item,
+[data-theme="dark"] #recent-posts>.recent-post-item,
 [data-theme="dark"] #aside-content .card-widget,
 [data-theme="dark"] div#post,
 [data-theme="dark"] div#archive,
@@ -212,14 +215,14 @@ div#archive {
 }
 
 /* 个人信息卡片背景图 */
-[data-theme="light"] #aside-content > .card-widget.card-info {
+[data-theme="light"] #aside-content>.card-widget.card-info {
   background-image: url('https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509270104154.jpg');
   background-repeat: no-repeat;
   background-attachment: inherit;
   background-size: 100%;
 }
 
-[data-theme="dark"] #aside-content > .card-widget.card-info {
+[data-theme="dark"] #aside-content>.card-widget.card-info {
   background-image: url('https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509270104151.jpg');
   background-repeat: no-repeat;
   background-attachment: inherit;
@@ -229,13 +232,14 @@ div#archive {
 
 /* 确保.card-info-avatar正确显示 */
 .card-widget .card-info-avatar {
-    display: inline-block;
-    position: relative;
+  display: inline-block;
+  position: relative;
 }
 
 /* 使图片透明而不隐藏容器 */
 .card-info .avatar-img img {
-    opacity: 0; /* 让图片透明 */
+  opacity: 0;
+  /* 让图片透明 */
 }
 
 /* 应用于头像容器的呼吸灯动画 */
@@ -249,9 +253,12 @@ div#archive {
 
 /* 定义呼吸灯动画在亮色主题下的效果 */
 @keyframes huxi_light {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0px 0px 1px 1px #e9f5fa;
   }
+
   50% {
     box-shadow: 0px 0px 5px 5px #e9f5fa;
   }
@@ -259,9 +266,12 @@ div#archive {
 
 /* 定义呼吸灯动画在暗色主题下的效果 */
 @keyframes huxi_dark {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0px 0px 1px 1px #39c5bb;
   }
+
   50% {
     box-shadow: 0px 0px 5px 5px #39c5bb;
   }
@@ -325,55 +335,66 @@ div#archive {
   bottom: -11px;
   z-index: 5;
 }
+
 .waves-area .waves-svg {
   width: 100%;
   height: 5rem;
 }
+
 /* Animation */
 
-.parallax > use {
+.parallax>use {
   animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
 }
-.parallax > use:nth-child(1) {
+
+.parallax>use:nth-child(1) {
   animation-delay: -2s;
   animation-duration: 7s;
-  fill: rgba(247, 249, 254, 0.3); /* 半透明浅灰白 */
+  fill: rgba(247, 249, 254, 0.3);
+  /* 半透明浅灰白 */
 }
 
-.parallax > use:nth-child(2) {
+.parallax>use:nth-child(2) {
   animation-delay: -3s;
   animation-duration: 10s;
-  fill: rgba(247, 249, 254, 0.25); /* 更淡 */
+  fill: rgba(247, 249, 254, 0.25);
+  /* 更淡 */
 }
 
-.parallax > use:nth-child(3) {
+.parallax>use:nth-child(3) {
   animation-delay: -4s;
   animation-duration: 13s;
-  fill: rgba(247, 249, 254, 0.2); /* 最淡 */
+  fill: rgba(247, 249, 254, 0.2);
+  /* 最淡 */
 }
 
-.parallax > use:nth-child(4) {
+.parallax>use:nth-child(4) {
   animation-delay: -5s;
   animation-duration: 20s;
-  fill: rgba(180, 175, 170, 0.15); /* 暗灰，接近背景色调 */
+  fill: rgba(180, 175, 170, 0.15);
+  /* 暗灰，接近背景色调 */
 }
+
 /* 黑色模式背景 */
-[data-theme="dark"] .parallax > use:nth-child(1) {
+[data-theme="dark"] .parallax>use:nth-child(1) {
   animation-delay: -2s;
   animation-duration: 7s;
   fill: #18171dc8;
 }
-[data-theme="dark"] .parallax > use:nth-child(2) {
+
+[data-theme="dark"] .parallax>use:nth-child(2) {
   animation-delay: -3s;
   animation-duration: 10s;
   fill: #18171d80;
 }
-[data-theme="dark"] .parallax > use:nth-child(3) {
+
+[data-theme="dark"] .parallax>use:nth-child(3) {
   animation-delay: -4s;
   animation-duration: 13s;
   fill: #18171d3e;
 }
-[data-theme="dark"] .parallax > use:nth-child(4) {
+
+[data-theme="dark"] .parallax>use:nth-child(4) {
   animation-delay: -5s;
   animation-duration: 20s;
   fill: #18171d;
@@ -383,17 +404,19 @@ div#archive {
   0% {
     transform: translate3d(-90px, 0, 0);
   }
+
   100% {
     transform: translate3d(85px, 0, 0);
   }
 }
+
 /*Shrinking for mobile*/
 @media (max-width: 768px) {
   .waves-area .waves-svg {
     height: 40px;
     min-height: 40px;
   }
-} 
+}
 
 /* 全局宽度 */
 .layout {
@@ -446,4 +469,43 @@ div#archive {
   font-size: 0.95em !important;
   overflow-y: auto !important;
   max-height: calc(100vh - 200px) !important
+}
+
+
+
+.live2d-container {
+  position: fixed;
+  bottom: 45px;
+  left: 12px;
+  width: 250px;
+  height: 500px;
+  pointer-events: none;
+  z-index: 999;
+  overflow: hidden;
+}
+
+.live2d-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  pointer-events: auto;
+  transform: translateY(130px); 
+}
+
+/* 默认：白猫可见 */
+#light-model {
+  visibility: visible;
+}
+
+#dark-model {
+  visibility: hidden;
+}
+
+/* 当 html[data-theme="dark"] 时，黑猫可见 */
+html[data-theme="dark"] #light-model {
+  visibility: hidden;
+}
+
+html[data-theme="dark"] #dark-model {
+  visibility: visible;
 }
