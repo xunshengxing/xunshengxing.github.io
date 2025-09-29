@@ -4,25 +4,6 @@
   
     
     <entry>
-      <title>Redis面试题</title>
-      <link href="/2025/09/26/Redis/"/>
-      <url>/2025/09/26/Redis/</url>
-      
-        <content type="html"><![CDATA[<h4 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h4><p>查询一个不存在的数据，Mysql查询不到数据也不会直接写入缓存，就会导致每次请求都查数据库</p><p><img src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509261921325.png" alt="image-20250926192114283"></p><p>方案二：</p><p>布隆过滤器</p><p><img src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509261921233.png" alt="image-20250926192150185"></p><p><img src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509261922862.png" alt="image-20250926192250804"></p><p>实现方案：</p><p><img src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509261924088.png" alt="image-20250926192428047"></p><h4 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h4><p>在Redis一个key过期的临界点，发送来大量请求，会压垮DB</p><h5 id="互斥锁解决"><a href="#互斥锁解决" class="headerlink" title="互斥锁解决"></a>互斥锁解决</h5><p><img src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509261929456.png" alt="image-20250926192932414"></p><p>保证数据的强一致性，但性能差</p><h5 id="逻辑过期"><a href="#逻辑过期" class="headerlink" title="逻辑过期"></a>逻辑过期</h5><p><img src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509261931125.png" alt="image-20250926193133076"></p><p>优先保证高可用，性能优</p><h4 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h4><p>同一时段大量的缓存key同时失效或者Redis服务宕机，导致大量请求到达数据库</p><p><img src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509261934517.png" alt="image-20250926193410459"></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> java面试 </category>
-          
-      </categories>
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>git使用</title>
       <link href="/2025/09/26/git/"/>
       <url>/2025/09/26/git/</url>
@@ -33,6 +14,25 @@
       <categories>
           
           <category> 随便写写 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Redis面试题</title>
+      <link href="/2025/09/26/Redis/"/>
+      <url>/2025/09/26/Redis/</url>
+      
+        <content type="html"><![CDATA[<h4 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h4><p>查询一个不存在的数据，Mysql查询不到数据也不会直接写入缓存，就会导致每次请求都查数据库</p><p><img src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509261921325.png" alt="image-20250926192114283"></p><p>方案二：</p><p>布隆过滤器</p><p><img src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509261921233.png" alt="image-20250926192150185"></p><p><img src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509261922862.png" alt="image-20250926192250804"></p><p>实现方案：</p><p><img src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509261924088.png" alt="image-20250926192428047"></p><h4 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h4><p>在Redis一个key过期的临界点，发送来大量请求，会压垮DB</p><h5 id="互斥锁解决"><a href="#互斥锁解决" class="headerlink" title="互斥锁解决"></a>互斥锁解决</h5><p><img src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509261929456.png" alt="image-20250926192932414"></p><p>保证数据的强一致性，但性能差</p><h5 id="逻辑过期"><a href="#逻辑过期" class="headerlink" title="逻辑过期"></a>逻辑过期</h5><p><img src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509261931125.png" alt="image-20250926193133076"></p><p>优先保证高可用，性能优</p><h4 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h4><p>同一时段大量的缓存key同时失效或者Redis服务宕机，导致大量请求到达数据库</p><p><img src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509261934517.png" alt="image-20250926193410459"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> java面试 </category>
           
       </categories>
       
