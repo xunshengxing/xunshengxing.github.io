@@ -4,25 +4,6 @@
   
     
     <entry>
-      <title>git使用</title>
-      <link href="/2025/09/26/git/"/>
-      <url>/2025/09/26/git/</url>
-      
-        <content type="html"><![CDATA[<h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><p>版本控制工具</p><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><h4 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h4><p>版本：软件版本、文件版本</p><p>版本控制：</p><ol><li>保存和管理文件</li><li>提供客户端工具进行访问</li><li>提供不同版本文件比对功能</li></ol><h4 id="集中式版本控制"><a href="#集中式版本控制" class="headerlink" title="集中式版本控制"></a>集中式版本控制</h4><p><img src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/20250929152218914.png" alt="image-20250929152218880"></p><p>问题：</p><ol><li>文件冲突问题，多人同时下载修改后上传，后面的人上传文件会把前面的人所作的修改覆盖，VSS解决策略：加锁 ；CVS：不同用户修改区域不同，比如张三写第一行，李四写第二行；</li><li>中央服务器存在隐患</li></ol><h4 id="分布式版本控制"><a href="#分布式版本控制" class="headerlink" title="分布式版本控制"></a>分布式版本控制</h4><p><img src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/20250929152934661.png" alt="image-20250929152934625"></p><p>在本地搭建一个一样的资源库</p><h4 id="多人协作开发"><a href="#多人协作开发" class="headerlink" title="多人协作开发"></a>多人协作开发</h4>]]></content>
-      
-      
-      <categories>
-          
-          <category> 随便写写 </category>
-          
-      </categories>
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Redis面试题</title>
       <link href="/2025/09/26/Redis/"/>
       <url>/2025/09/26/Redis/</url>
@@ -33,6 +14,25 @@
       <categories>
           
           <category> java面试 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>git使用</title>
+      <link href="/2025/09/26/git/"/>
+      <url>/2025/09/26/git/</url>
+      
+        <content type="html"><![CDATA[<h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><p>版本控制工具</p><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><h4 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h4><p>版本：软件版本、文件版本</p><p>版本控制：</p><ol><li>保存和管理文件</li><li>提供客户端工具进行访问</li><li>提供不同版本文件比对功能</li></ol><h4 id="集中式版本控制"><a href="#集中式版本控制" class="headerlink" title="集中式版本控制"></a>集中式版本控制</h4><p><img src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/20250929152218914.png" alt="image-20250929152218880"></p><p>问题：</p><ol><li>文件冲突问题，多人同时下载修改后上传，后面的人上传文件会把前面的人所作的修改覆盖，VSS解决策略：加锁 ；CVS：不同用户修改区域不同，比如张三写第一行，李四写第二行；</li><li>中央服务器存在隐患</li></ol><h4 id="分布式版本控制"><a href="#分布式版本控制" class="headerlink" title="分布式版本控制"></a>分布式版本控制</h4><p><img src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/20250929152934661.png" alt="image-20250929152934625"></p><p>在本地搭建一个一样的资源库</p><h4 id="多人协作开发"><a href="#多人协作开发" class="headerlink" title="多人协作开发"></a>多人协作开发</h4>]]></content>
+      
+      
+      <categories>
+          
+          <category> 随便写写 </category>
           
       </categories>
       

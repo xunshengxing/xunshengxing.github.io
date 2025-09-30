@@ -428,3 +428,6 @@
   pointer-events: all;
 }
 
+[data-theme="dark"] {
+    --border-style: 1px solid transparent;
+}
