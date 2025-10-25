@@ -1,0 +1,444 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>以广告媒体管理系统为例的数据库设计 | Sky's Blog</title><meta name="author" content="sky"><meta name="copyright" content="sky"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="以下以广告媒体管理系统为例， 广告媒体是指电子屏幕或者纸质展示牌等能够刊登广告的媒介，以下简称媒体 业务需求：  对媒体进行管理：查看所有媒体的广告刊登情况 广告的审批与管理：画面审批、上下刊申请、拍照反馈 运维与故障管理：媒体的报修与维护 销售管理：查看媒体销售状态与合同 用户管理：用户权限与角色管理，微信登录与账密登录 数据统计：广告统计、故障统计 ….其他非关键需求  实体实体能否在现实中独">
+<meta property="og:type" content="article">
+<meta property="og:title" content="以广告媒体管理系统为例的数据库设计">
+<meta property="og:url" content="https://whsky.top/2025/10/25/%E6%95%B0%E6%8D%AE%E5%BA%93%E3%80%81%E7%BC%93%E5%AD%98%E3%80%81%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/index.html">
+<meta property="og:site_name" content="Sky&#39;s Blog">
+<meta property="og:description" content="以下以广告媒体管理系统为例， 广告媒体是指电子屏幕或者纸质展示牌等能够刊登广告的媒介，以下简称媒体 业务需求：  对媒体进行管理：查看所有媒体的广告刊登情况 广告的审批与管理：画面审批、上下刊申请、拍照反馈 运维与故障管理：媒体的报修与维护 销售管理：查看媒体销售状态与合同 用户管理：用户权限与角色管理，微信登录与账密登录 数据统计：广告统计、故障统计 ….其他非关键需求  实体实体能否在现实中独">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509270104153.jpg">
+<meta property="article:published_time" content="2025-10-25T02:12:55.000Z">
+<meta property="article:modified_time" content="2025-10-25T03:50:03.627Z">
+<meta property="article:author" content="sky">
+<meta property="article:tag" content="数据建模">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509270104153.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "以广告媒体管理系统为例的数据库设计",
+  "url": "https://whsky.top/2025/10/25/%E6%95%B0%E6%8D%AE%E5%BA%93%E3%80%81%E7%BC%93%E5%AD%98%E3%80%81%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/",
+  "image": "https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509270104153.jpg",
+  "datePublished": "2025-10-25T02:12:55.000Z",
+  "dateModified": "2025-10-25T03:50:03.627Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "sky",
+      "url": "https://whsky.top"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://whsky.top/2025/10/25/%E6%95%B0%E6%8D%AE%E5%BA%93%E3%80%81%E7%BC%93%E5%AD%98%E3%80%81%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":0,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '以广告媒体管理系统为例的数据库设计',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/bg_blur.css"><link rel="stylesheet" href="/css/APlayer.min.css"><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/categorybar.css"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/aplayer.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg" style="background-image: url(/img/background.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/favicon2.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509270104153.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Sky's Blog</span></a><a class="nav-page-title" href="/"><span class="site-name">以广告媒体管理系统为例的数据库设计</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">以广告媒体管理系统为例的数据库设计</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-10-25T02:12:55.000Z" title="发表于 2025-10-25 10:12:55">2025-10-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-10-25T03:50:03.627Z" title="更新于 2025-10-25 11:50:03">2025-10-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">2.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div id="post-outdate-notice" data="{&quot;limitDay&quot;:365,&quot;messagePrev&quot;:&quot;It has been&quot;,&quot;messageNext&quot;:&quot;days since the last update, the content of the article may be outdated.&quot;,&quot;postUpdate&quot;:&quot;2025-10-25 11:50:03&quot;}" hidden></div><p>以下以广告媒体管理系统为例，</p>
+<p>广告媒体是指电子屏幕或者纸质展示牌等能够刊登广告的媒介，以下简称媒体</p>
+<p>业务需求：</p>
+<ul>
+<li>对媒体进行管理：查看所有媒体的广告刊登情况</li>
+<li>广告的审批与管理：画面审批、上下刊申请、拍照反馈</li>
+<li>运维与故障管理：媒体的报修与维护</li>
+<li>销售管理：查看媒体销售状态与合同</li>
+<li>用户管理：用户权限与角色管理，微信登录与账密登录</li>
+<li>数据统计：广告统计、故障统计</li>
+<li>….其他非关键需求</li>
+</ul>
+<h2 id="实体"><a href="#实体" class="headerlink" title="实体"></a>实体</h2><h3 id="实体能否在现实中独立存在？"><a href="#实体能否在现实中独立存在？" class="headerlink" title="实体能否在现实中独立存在？"></a>实体能否在现实中独立存在？</h3><p>虽然传统上实体是现实中可区分的独立对象”，但在数据库建模中，<strong>“实体”更多是指“在系统中有独立身份、需要单独管理的数据对象”</strong>，它既可以是现实中的独立个体，也可以是为了建模需要而抽象出来的逻辑存在。</p>
+<hr>
+<h3 id="现实中的“独立存在”-vs-数据库中的“实体”"><a href="#现实中的“独立存在”-vs-数据库中的“实体”" class="headerlink" title="现实中的“独立存在” vs 数据库中的“实体”"></a>现实中的“独立存在” vs 数据库中的“实体”</h3><h4 id="强实体"><a href="#强实体" class="headerlink" title="强实体"></a>强实体</h4><p>这类实体不依赖于其他对象而存在。</p>
+<ul>
+<li><p><code>学生</code>：有学号、姓名，可以独立存在。</p>
+</li>
+<li><p><code>教师</code>、<code>课程</code>、<code>商品</code>、<code>客户</code></p>
+</li>
+</ul>
+<p>📌特征：有<strong>主键</strong>，能独立标识自身。</p>
+<h4 id="弱实体"><a href="#弱实体" class="headerlink" title="弱实体"></a>弱实体</h4><p>这类实体<strong>不能独立存在</strong>，必须依附于另一个实体。</p>
+<ul>
+<li><p><code>订单项</code>（Order Item）：没有“订单”就没有“订单项”</p>
+</li>
+<li><p><code>宿舍床位</code>：只有在某栋“宿舍楼”存在时才有意义</p>
+</li>
+<li><p><code>银行账户交易记录</code>：必须属于某个“账户”</p>
+</li>
+</ul>
+<p>📌 特征：没有完全独立的主键（称为<strong>部分键</strong>或<strong>鉴别符</strong>）</p>
+<hr>
+<h3 id="实体本质"><a href="#实体本质" class="headerlink" title="实体本质"></a>实体本质</h3><p>在数据库设计中，判断一个对象是不是“实体”，<span style="background:#FFFFFF; color:#FF0000;">关键不是它是否物理独立</span>，而是：</p>
+<blockquote>
+<p><strong>这个对象是否有自己的属性？是否需要被唯一标识？是否参与关系？<span style="color:#FF0000;">是否“需要被独立管理和标识</span></strong></p>
+</blockquote>
+<p>如果答案是“是”，那它就可能是一个实体，哪怕它是依附性的。</p>
+<p>比如“学生”和“课程”之间是多对多关系。为了记录“选课成绩”，我们会创建一个叫 <code>选课记录</code> 的实体。</p>
+<ul>
+<li><p>它看起来像是一个“关系”，但因为它有属性（如成绩、选课时间），所以我们把它当作<strong>实体</strong>处理。</p>
+</li>
+<li><p>在ER图中，它可以被建模为<strong>弱实体</strong>或<strong>关联实体</strong>。</p>
+</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">学生 ——&lt; 选课记录 &gt;—— 课程</span><br><span class="line"><span class="code">         ↗ (成绩, 时间)</span></span><br></pre></td></tr></table></figure>
+
+<p>👉 虽然“选课记录”不是一个物理对象，但它在系统中需要被<strong>独立存储和查询</strong>，因此被视为实体。</p>
+<hr>
+<h3 id="实体判断"><a href="#实体判断" class="headerlink" title="实体判断"></a>实体判断</h3><p>“存在”不一定是物理的。</p>
+<ul>
+<li><p>“合同”不是实物，但它是法律意义上的独立实体。</p>
+</li>
+<li><p>“航班”不是物体，而是事件，但仍可作为实体建模。</p>
+</li>
+<li><p>“项目任务”、“工单”、“日志条目”等都是逻辑存在，但需作为实体管理。</p>
+</li>
+</ul>
+<p>所以，在信息系统中，“存在” &#x3D; <strong>具有唯一身份 + 可被追踪 + 可被操作</strong></p>
+<table>
+<thead>
+<tr>
+<th>判断标准</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>是否有唯一标识（主键）？</td>
+<td>是 → 倾向于实体</td>
+</tr>
+<tr>
+<td>是否有多个属性需要记录？</td>
+<td>是 → 倾向于实体</td>
+</tr>
+<tr>
+<td>是否参与多种关系？</td>
+<td>是 → 更可能是实体</td>
+</tr>
+<tr>
+<td>是否可脱离其他对象独立存在？</td>
+<td>可以 → 强实体；不可以 → 弱实体（仍是实体）</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>所以：<strong>实体 ≠ 必须物理独立存在</strong>，而是指“在系统中具有独立数据身份的对象”。、</p>
+<p>在数据库建模中，<strong>“实体”是信息世界的公民</strong>——只要它有身份证（主键）、有档案（属性）、能与其他对象互动（关系），它就是合法的“实体”，无论它在现实中是人、物，还是一个事件或关系的实例。</p>
+</blockquote>
+<p>如果你看到一个对象需要被持久化、被查询、被更新，哪怕它是依附性的，也应该考虑将其建模为实体（尤其是弱实体或关联实体）。</p>
+<h2 id="E-R图的绘制"><a href="#E-R图的绘制" class="headerlink" title="E-R图的绘制"></a>E-R图的绘制</h2><h3 id="识别业务中的实体"><a href="#识别业务中的实体" class="headerlink" title="识别业务中的实体"></a>识别业务中的实体</h3><p>实体是需要被独立管理和表示的对象</p>
+<ul>
+<li><p>找重复出现的<strong>核心名词</strong></p>
+</li>
+<li><p>排除属性（如“姓名”不是实体，它是人的属性）</p>
+</li>
+<li><p>实体通常能拥有自己的属性和参与关系</p>
+</li>
+</ul>
+<ol>
+<li>媒体（媒体区域、广告刊登情况、媒体ID、媒体套餐、媒体类型、媒体单位、维修记录？、保修记录？）</li>
+<li>广告（广告ID、画面、合同，审批）</li>
+<li>用户（用户ID，账密，微信号？）</li>
+</ol>
+<h3 id="属性拆分"><a href="#属性拆分" class="headerlink" title="属性拆分"></a>属性拆分</h3><blockquote>
+<p><strong>属性拆分（尤其是多值、复合、弱实体）应在E-R图设计阶段完成</strong>，这是概念建模的核心任务。逻辑模型只是将E-R图规范化为表结构。</p>
+</blockquote>
+<h4 id="媒体拆分"><a href="#媒体拆分" class="headerlink" title="媒体拆分"></a>媒体拆分</h4><p>媒体类型、媒体区域，媒体单位独立处理，拆分出来</p>
+<p>一个媒体可能归属多个套餐，<span style="color:#FF0000;">多值问题</span>，一个属性可能有多个值，进行拆分</p>
+<p>维修&#x2F;保修记录：一个媒体可能有多个维修&#x2F;保修记录，进行拆分，<span style="color:#FF0000;">多值问题</span></p>
+<p>广告刊登情况：这是一个<span style="color:#FF0000;">动态状态或行为</span>，不应作为媒体属性，应该单独设置”广告排期“或者”刊登记录”</p>
+<p>思考：为什么不能直接设置一个属性：如果有广告刊登就把广告id记录，没有就为空这不是没毛病吗</p>
+<p>问题1： 无法记录历史刊登情况，只能记录当前刊登的情况</p>
+<p>问题2：无法判断时间是否重叠，</p>
+<ul>
+<li><p>广告A想在2025-11-01~11-30刊登。</p>
+</li>
+<li><p>广告B也想在2025-11-15~12-15刊登。</p>
+</li>
+</ul>
+<p>只有一个字段无法判断两个广告是否冲突，必需有“开始时间”跟“结束时间”字段，而这只能存放在独立的“刊登记录”</p>
+<p>问题3：不支持同一个媒体轮播</p>
+<ul>
+<li><p>某个LED大屏每10秒轮播5个广告。</p>
+</li>
+<li><p>它“同时”刊登了5个广告。</p>
+</li>
+</ul>
+<p>当前刊登广告ID”字段只能存一个ID，<strong>无法表达多广告共存</strong>。</p>
+<p> 必须用一个独立表来记录“哪个广告在哪个媒体上播了多少时间</p>
+<p>问题4：无法统计分析（数据丢失）</p>
+<ul>
+<li><p>“过去一年哪些媒体最抢手？”</p>
+</li>
+<li><p>“哪个客户投放最多？”</p>
+</li>
+<li><p>“春节期间广告单价上涨了多少？”</p>
+</li>
+</ul>
+<p>所有这些分析都依赖<strong>历史排期数据</strong>。如果你只存“当前”，这些分析统统做不到。</p>
+<blockquote>
+<p><strong><span style="color:#FF0000;">不要把一个“会发生多次、有时间变化、涉及多个对象”的业务行为</span>，压缩成一个静态字段</strong></p>
+</blockquote>
+<ul>
+<li><p>“广告刊登”是一个<strong>行为</strong>（广告 → 在 → 媒体 → 上 → 刊登）</p>
+</li>
+<li><p>它有<strong>参与者</strong>（广告、媒体）</p>
+</li>
+<li><p>有<strong>时间范围</strong>（开始、结束）</p>
+</li>
+<li><p>有<strong>状态变化</strong>（待审、已登、结束）</p>
+</li>
+</ul>
+<p>👉 这种复杂的行为，本质上是一个<strong>关联事件</strong>，应该用一张<strong>独立的表</strong>来记录，而不是塞进某个实体的一个字段里。</p>
+<p>📌 类比：</p>
+<ul>
+<li><p>不能因为“用户买了商品”，就在用户表里加个 <code>当前购买商品ID</code>。</p>
+</li>
+<li><p>而应该建“订单”表，记录谁、什么时候、买了什么。</p>
+</li>
+</ul>
+<p>拆分后的实体：</p>
+<p>媒体：（媒体ID、媒体区域ID、媒体类型ID）</p>
+<p>媒体类型：（媒体类型ID、类型名）</p>
+<p>媒体单位：（媒体单位ID、单位名）</p>
+<p>媒体套餐：（媒体套餐ID，套餐名）</p>
+<p>媒体_套餐记录：（媒体套餐ID、媒体ID）</p>
+<p>维修记录：（媒体ID，维修记录ID）</p>
+<p>保修记录：（保修记录ID，媒体ID）</p>
+<p>刊登记录：（刊登ID、刊登状态、刊登时间、媒体ID）</p>
+<h4 id="广告拆分"><a href="#广告拆分" class="headerlink" title="广告拆分"></a>广告拆分</h4><p>画面：画面是一个<span style="color:#FF0000;">复合属性</span>，有多个版本或元数据（尺寸、格式、审核状态），应该设置单独实体</p>
+<p>合同：<span style="color:#FF0000;">复合属性</span>，</p>
+<p>审批：审批是一个<span style="color:#FF0000;">动态状态或行为</span>，可能涉及多个环节、审批人、时间、意见。应拆为“审批记录”实体，与“广告”建立一对多关系（一次广告可能多次提交审批）。</p>
+<p>拆分后的实体：</p>
+<p>广告（广告ID、…）</p>
+<p>合同（合同ID、广告ID、客户、…）</p>
+<p>画面（图片、尺寸、审批ID）</p>
+<p>画面审批记录（审批人、审批时间、画面ID</p>
+<h3 id="绘制E-R图"><a href="#绘制E-R图" class="headerlink" title="绘制E-R图"></a>绘制E-R图</h3></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://whsky.top">sky</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://whsky.top/2025/10/25/%E6%95%B0%E6%8D%AE%E5%BA%93%E3%80%81%E7%BC%93%E5%AD%98%E3%80%81%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/">https://whsky.top/2025/10/25/%E6%95%B0%E6%8D%AE%E5%BA%93%E3%80%81%E7%BC%93%E5%AD%98%E3%80%81%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://whsky.top" target="_blank">Sky's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E5%BB%BA%E6%A8%A1/">数据建模</a></div><div class="post-share"><div class="social-share" data-image="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509270104153.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/10/24/java/spring/spring-init%E6%A8%A1%E6%9D%BF/" title="spring-init模板"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509270104156.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">spring-init模板</div></div><div class="info-2"><div class="info-item-1">简介基于springboot的项目初始模板，用于快速整合后端 目前实现：  全局登录校验拦截器JwtTokenUserInterceptor 全局异常处理器GlobleException 自定义错误码ErrorCode Knife4j接口 全局跨域处理CorsConfig 封装通用响应类Result logback日志按天滚动logback-spring.xml 基于MockMVC的单元测试  计划实现：  springbootAOP切面编程 Spring事务注解 Spring Scheduler 定时任务 集成Redis、OSS对象存储 业务代码生成器（自动生成增删改查） Spring Session Redis 分布式登录 自定义权限注解 + 全局校验 文件上传 集成ES搜索引擎   1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768|-- java|   `-- org| ...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="card-info-avatar"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/favicon2.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-status-box"><div class="author-status"><g-emoji class="g-emoji" alias="palm_tree" fallback-src="https://lskypro.acozycotage.net/LightPicture/2022/12/fe1dc0402e623096.jpg">🐟</g-emoji><span>认真摸鱼中</span></div></div></div><div class="author-info-name">sky</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xunshengxing"><i class="fab fa-github"></i><span>前往 GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/xunshengxing/" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:wy1743602556@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E4%BD%93"><span class="toc-number">1.</span> <span class="toc-text">实体</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BD%93%E8%83%BD%E5%90%A6%E5%9C%A8%E7%8E%B0%E5%AE%9E%E4%B8%AD%E7%8B%AC%E7%AB%8B%E5%AD%98%E5%9C%A8%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">实体能否在现实中独立存在？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%B0%E5%AE%9E%E4%B8%AD%E7%9A%84%E2%80%9C%E7%8B%AC%E7%AB%8B%E5%AD%98%E5%9C%A8%E2%80%9D-vs-%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E7%9A%84%E2%80%9C%E5%AE%9E%E4%BD%93%E2%80%9D"><span class="toc-number">1.2.</span> <span class="toc-text">现实中的“独立存在” vs 数据库中的“实体”</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%BA%E5%AE%9E%E4%BD%93"><span class="toc-number">1.2.1.</span> <span class="toc-text">强实体</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%B1%E5%AE%9E%E4%BD%93"><span class="toc-number">1.2.2.</span> <span class="toc-text">弱实体</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BD%93%E6%9C%AC%E8%B4%A8"><span class="toc-number">1.3.</span> <span class="toc-text">实体本质</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BD%93%E5%88%A4%E6%96%AD"><span class="toc-number">1.4.</span> <span class="toc-text">实体判断</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#E-R%E5%9B%BE%E7%9A%84%E7%BB%98%E5%88%B6"><span class="toc-number">2.</span> <span class="toc-text">E-R图的绘制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%86%E5%88%AB%E4%B8%9A%E5%8A%A1%E4%B8%AD%E7%9A%84%E5%AE%9E%E4%BD%93"><span class="toc-number">2.1.</span> <span class="toc-text">识别业务中的实体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7%E6%8B%86%E5%88%86"><span class="toc-number">2.2.</span> <span class="toc-text">属性拆分</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AA%92%E4%BD%93%E6%8B%86%E5%88%86"><span class="toc-number">2.2.1.</span> <span class="toc-text">媒体拆分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B9%BF%E5%91%8A%E6%8B%86%E5%88%86"><span class="toc-number">2.2.2.</span> <span class="toc-text">广告拆分</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%98%E5%88%B6E-R%E5%9B%BE"><span class="toc-number">2.3.</span> <span class="toc-text">绘制E-R图</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/10/25/%E6%95%B0%E6%8D%AE%E5%BA%93%E3%80%81%E7%BC%93%E5%AD%98%E3%80%81%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/" title="以广告媒体管理系统为例的数据库设计"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509270104153.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="以广告媒体管理系统为例的数据库设计"/></a><div class="content"><a class="title" href="/2025/10/25/%E6%95%B0%E6%8D%AE%E5%BA%93%E3%80%81%E7%BC%93%E5%AD%98%E3%80%81%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/" title="以广告媒体管理系统为例的数据库设计">以广告媒体管理系统为例的数据库设计</a><time datetime="2025-10-25T02:12:55.000Z" title="发表于 2025-10-25 10:12:55">2025-10-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/24/java/spring/spring-init%E6%A8%A1%E6%9D%BF/" title="spring-init模板"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509270104156.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="spring-init模板"/></a><div class="content"><a class="title" href="/2025/10/24/java/spring/spring-init%E6%A8%A1%E6%9D%BF/" title="spring-init模板">spring-init模板</a><time datetime="2025-10-24T03:57:02.000Z" title="发表于 2025-10-24 11:57:02">2025-10-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/24/java/java%E8%AF%AD%E8%A8%80/java%E4%B8%AD%E7%9A%84%E6%9E%9A%E4%B8%BE/" title="java中的枚举"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509270104161.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="java中的枚举"/></a><div class="content"><a class="title" href="/2025/10/24/java/java%E8%AF%AD%E8%A8%80/java%E4%B8%AD%E7%9A%84%E6%9E%9A%E4%B8%BE/" title="java中的枚举">java中的枚举</a><time datetime="2025-10-24T03:54:54.000Z" title="发表于 2025-10-24 11:54:54">2025-10-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/24/java/spring/spring%E9%9B%86%E6%88%90logback%E6%97%A5%E5%BF%97/" title="spring集成logback日志"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509270104151.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="spring集成logback日志"/></a><div class="content"><a class="title" href="/2025/10/24/java/spring/spring%E9%9B%86%E6%88%90logback%E6%97%A5%E5%BF%97/" title="spring集成logback日志">spring集成logback日志</a><time datetime="2025-10-24T02:30:54.000Z" title="发表于 2025-10-24 10:30:54">2025-10-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/24/java/spring/Mock%E6%B5%8B%E8%AF%95%E7%9B%B8%E5%85%B3/" title="Mock测试相关"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509270104159.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Mock测试相关"/></a><div class="content"><a class="title" href="/2025/10/24/java/spring/Mock%E6%B5%8B%E8%AF%95%E7%9B%B8%E5%85%B3/" title="Mock测试相关">Mock测试相关</a><time datetime="2025-10-24T02:28:25.000Z" title="发表于 2025-10-24 10:28:25">2025-10-24</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By sky</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 6.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.0</a></span></div></div></footer></div><div id="nav-music"><div id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()">播放音乐</div><meting-js id="14328758050" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random" volume="0.2"></meting-js></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"></div><script src="/js/bg_blur.js"></script><script src="/js/APlayer.min.js"></script><script src="/js/Meting.min.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script async data-pjax src="/js/anzhiyu.js"></script><script async data-pjax src="/js/anzhiyufunction.js"></script><script async src="/js/anzhiyuOnlyOne.js"></script><div class="live2d-container"> <iframe id="light-model" class="live2d-frame" src="/live2d-light.html"></iframe> </div><div class="live2d-container"> <iframe id="dark-model"  class="live2d-frame" src="/live2d-dark.html"></iframe> </div><script> // 监听 html 的 data-theme 变化 const observer = new MutationObserver(() => { const html = document.documentElement; const theme = html.getAttribute('data-theme'); const lightModel = document.getElementById('light-model'); const darkModel  = document.getElementById('dark-model');
+if (lightModel && darkModel) { if (theme === 'dark') { lightModel.style.visibility = 'hidden'; darkModel.style.visibility  = 'visible'; } else { lightModel.style.visibility = 'visible'; darkModel.style.visibility  = 'hidden'; } } });
+// 开始观察 html 的 data-theme 属性变化 observer.observe(document.documentElement, { attributes:true, attributeFilter:['data-theme'] });
+// 页面加载后立即设置一次 window.addEventListener('load', () => { setTimeout(() => { const html = document.documentElement; const theme = html.getAttribute('data-theme'); const lightModel = document.getElementById('light-model'); const darkModel  = document.getElementById('dark-model');
+if (theme === 'dark') { lightModel.style.visibility = 'hidden'; darkModel.style.visibility  = 'visible'; } else { lightModel.style.visibility = 'visible'; darkModel.style.visibility  = 'hidden'; } }, 500); }); </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="https://whsky.top/categories/随便写写/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📚 草稿箱 (3)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://whsky.top/categories/java面试/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🎮 java面试八股 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://whsky.top/categories/博客搭建/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🐱‍👓 Hexo博客搭建 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://whsky.top/categories/微服务/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📒 微服务 (1)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://whsky.top/categories/java/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">☕ java语言 (1)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://whsky.top/categories/数据库/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">😄 数据库 (1)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://whsky.top/categories/设计模式/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">😶‍🌫️ 设计模式 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item" style="visibility: hidden"></div><a class="magnet_link_more"  href="https://whsky.top/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #b30070}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2025/09/23/博客搭建/Bufferfly Blog 配置/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wh-hexo-blog.oss-cn-guangzhou.aliyuncs.com/202509270104156.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-09-23</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2025/09/23/博客搭建/Bufferfly Blog 配置/&quot;);" href="javascript:void(0);" alt="">博客添加音乐组件</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2025/09/23/博客搭建/Bufferfly Blog 配置/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>
